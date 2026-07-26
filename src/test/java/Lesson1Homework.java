@@ -2,8 +2,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class Lesson1Homework {
-    @Test
-    @Tag("smoke")
+   @Test
 
     public void logic_ternarii() {
         System.out.println(isEven(5));
@@ -14,7 +13,7 @@ public class Lesson1Homework {
 
 
     //1) public boolean isEven(int n) Разработать метод, который возвращает true, если число чётное
-    public boolean isEven(int n) {
+    public static boolean isEven(int n) {
         return (n % 2 == 0) ? true : false;
     }
 
@@ -30,7 +29,7 @@ public class Lesson1Homework {
     /*3) public String checkAccess(int age)
     Разработать метод, который возвращает Allowed,
     если age больше 18, иначе — Denied*/
-    public String checkAccess(int age) {
+    public static String checkAccess(int age) {
         return (age > 18) ? "Allowed" : "Denied";
 
     }
@@ -44,7 +43,7 @@ public class Lesson1Homework {
     + 61–80: B
     + 81–100:A */
 
-    public String getGrade(int score) {
+    public static String getGrade(int score) {
         if (score >= 0 && score <= 20) {
             return "0-20: E";
         } else if (score >= 21 && score <= 40) {

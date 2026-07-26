@@ -17,32 +17,24 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.20.1")
 }
 
-
-//Первая задача по запуску всех тестов Проекта
-tasks.register<Test>("smokeTest") {
-    group = "test";
-    useJUnitPlatform(){
-       includeTags("smoke")
-    }
-    println("========================\n" +
-            "Test method start")
+/// Конфигурация встроенной задачи test – запуск всех тестов
+tasks.test {
+    useJUnitPlatform()
 }
 
-//Вторая задача по нотификациям
+// Задача 1: запуск всех тестов (синоним test)
+tasks.register("smokeTest") {
+    dependsOn(tasks.test)
+    group = "test"
+    description = "Runs all tests"
+}
 
-tasks.register<Test>(name = "finishedTest"){
-    group = "test";
-    useJUnitPlatform(){
-        includeTags("smoke")
-    }
-    }
-
-tasks.named ("finishedTest") {
+// Задача 2: после прогона всех тестов выводит сообщение
+tasks.register("finishedTest") {
     dependsOn("smokeTest")
+    group = "test"
     doLast {
         println("Test run is over")
-        println("Test method end\n" +
-                "========================")
     }
 }
 
