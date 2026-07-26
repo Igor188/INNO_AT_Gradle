@@ -39,10 +39,11 @@ tasks.register("anotherSimpleTask") {
     }
 */
 
-tasks.register<Test>("smoke"){
+/*tasks.register<Test>("smoke"){
     group = "tests"
     systemProperty("CIRCUIT", System.getProperty("circuit", "DEV"))
     useJUnitPlatform{
         includeTags("Smoke")
     }
 }
+*/
