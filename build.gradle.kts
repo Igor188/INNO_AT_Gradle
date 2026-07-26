@@ -20,6 +20,7 @@ dependencies {
 /// Конфигурация встроенной задачи test – запуск всех тестов
 tasks.test {
     useJUnitPlatform()
+    outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
 }
 
 // Задача 1: запуск всех тестов (синоним test)

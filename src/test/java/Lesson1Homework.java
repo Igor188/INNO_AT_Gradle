@@ -20,7 +20,7 @@ public class Lesson1Homework {
     /*2) public boolean isPositive(int n) Разработать метод, который проверяет знак
     через тернарный оператор: возвращает true, если число
     больше или равно 0, и false, если меньше*/
-    public boolean isPositive(int n) {
+    public static boolean isPositive(int n) {
         return (n >= 0) ? true : false;
 
     }
