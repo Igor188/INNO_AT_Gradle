@@ -1,8 +1,9 @@
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class Lesson1Homework {
     @Test
-
+    @Tag("smoke")
 
     public void logic_ternarii() {
         System.out.println(isEven(5));
