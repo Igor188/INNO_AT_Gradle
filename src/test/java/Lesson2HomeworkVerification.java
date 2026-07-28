@@ -9,9 +9,9 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 
-public class Lesson2Verification {
+public class Lesson2HomeworkVerification {
 
-    private final Lesson1Homework homework = new Lesson1Homework();
+    private final Lesson1Homework_Logic_ternarii homework = new Lesson1Homework_Logic_ternarii();
     private final Random random = new Random();
 
     // ================= isEven (3 метода) =================
@@ -19,7 +19,7 @@ public class Lesson2Verification {
     void isEvenTest() {
         int n = random.nextInt(1, 101);
         boolean expected = n % 2 == 0;
-        boolean actual = Lesson1Homework.isEven(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isEven(n);
         printResult(expected == actual, "isEven(" + n + ")");
     }
 
@@ -27,14 +27,14 @@ public class Lesson2Verification {
     void isEvenRepeated() {
         int n = random.nextInt(1, 101);
         boolean expected = n % 2 == 0;
-        boolean actual = Lesson1Homework.isEven(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isEven(n);
         printResult(expected == actual, "isEven(" + n + ")");
     }
 
     @ParameterizedTest
     @MethodSource("isEvenData")
     void isEvenParameterized(int n, boolean expected) {
-        boolean actual = Lesson1Homework.isEven(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isEven(n);
         printResult(expected == actual, "isEven(" + n + ")");
     }
 
@@ -53,7 +53,7 @@ public class Lesson2Verification {
     void isPositiveTest() {
         int n = random.nextInt(-100, 101);
         boolean expected = n >= 0;
-        boolean actual = Lesson1Homework.isPositive(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isPositive(n);
         printResult(expected == actual, "isPositive(" + n + ")");
     }
 
@@ -61,14 +61,14 @@ public class Lesson2Verification {
     void isPositiveRepeated() {
         int n = random.nextInt(-100, 101);
         boolean expected = n >= 0;
-        boolean actual = Lesson1Homework.isPositive(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isPositive(n);
         printResult(expected == actual, "isPositive(" + n + ")");
     }
 
     @ParameterizedTest
     @MethodSource("isPositiveData")
     void isPositiveParameterized(int n, boolean expected) {
-        boolean actual = Lesson1Homework.isPositive(n);
+        boolean actual = Lesson1Homework_Logic_ternarii.isPositive(n);
         printResult(expected == actual, "isPositive(" + n + ")");
     }
 
@@ -86,7 +86,7 @@ public class Lesson2Verification {
     void checkAccessTest() {
         int age = random.nextInt(100);
         String expected = age > 18 ? "Allowed" : "Denied";
-        String actual = Lesson1Homework.checkAccess(age);
+        String actual = Lesson1Homework_Logic_ternarii.checkAccess(age);
         printResult(expected.equals(actual), "checkAccess(" + age + ")");
     }
 
@@ -94,14 +94,14 @@ public class Lesson2Verification {
     void checkAccessRepeated() {
         int age = random.nextInt(100);
         String expected = age > 18 ? "Allowed" : "Denied";
-        String actual = Lesson1Homework.checkAccess(age);
+        String actual = Lesson1Homework_Logic_ternarii.checkAccess(age);
         printResult(expected.equals(actual), "checkAccess(" + age + ")");
     }
 
     @ParameterizedTest
     @MethodSource("checkAccessData")
     void checkAccessParameterized(int age, String expected) {
-        String actual = Lesson1Homework.checkAccess(age);
+        String actual = Lesson1Homework_Logic_ternarii.checkAccess(age);
         printResult(expected.equals(actual), "checkAccess(" + age + ")");
     }
 
@@ -120,7 +120,7 @@ public class Lesson2Verification {
     void getGradeTest() {
         int score = random.nextInt(-10, 111);  // включая выход за границы
         String expected = expectedGrade(score);
-        String actual = Lesson1Homework.getGrade(score);
+        String actual = Lesson1Homework_Logic_ternarii.getGrade(score);
         printResult(expected.equals(actual), "getGrade(" + score + ")");
     }
 
@@ -128,7 +128,7 @@ public class Lesson2Verification {
     void getGradeRepeated() {
         int score = random.nextInt(-10, 111);
         String expected = expectedGrade(score);
-        String actual = Lesson1Homework.getGrade(score);
+        String actual = Lesson1Homework_Logic_ternarii.getGrade(score);
         printResult(expected.equals(actual), "getGrade(" + score + ")");
     }
 
@@ -143,7 +143,7 @@ public class Lesson2Verification {
             "-5, Invalid score"
     })
     void getGradeParameterizedCSV(int score, String expected) {
-        String actual = Lesson1Homework.getGrade(score);
+        String actual = Lesson1Homework_Logic_ternarii.getGrade(score);
         printResult(expected.equals(actual), "getGrade(" + score + ")");
     }
 

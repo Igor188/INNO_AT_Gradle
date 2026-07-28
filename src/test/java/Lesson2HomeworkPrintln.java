@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 
-public class Lesson2Println {
+public class Lesson2HomeworkPrintln {
 
     Random random = new Random();
 
@@ -28,7 +28,7 @@ public class Lesson2Println {
        void testIsEvenOnce() {
            int number = random.nextInt(1, 101);  // 1..100 включительно
            System.out.println("Calling isEven(" + number + ")");
-           boolean result = Lesson1Homework.isEven(number);
+           boolean result = Lesson1Homework_Logic_ternarii.isEven(number);
            System.out.println("Result: " + result);
        }
 
@@ -38,7 +38,7 @@ public class Lesson2Println {
     void testCheckAccessRepeated() {
         int age = random.nextInt(100);
         System.out.println("Calling checkAccess(" + age + ")");
-        String access = Lesson1Homework.checkAccess(age);
+        String access = Lesson1Homework_Logic_ternarii.checkAccess(age);
         System.out.println("Result: " + access);
     }
 
@@ -48,7 +48,7 @@ public class Lesson2Println {
     @MethodSource("randomScores")
     void testGetGradeParameterized(int score) {
         System.out.println("Calling getGrade(" + score + ")");
-        String grade = Lesson1Homework.getGrade(score);
+        String grade = Lesson1Homework_Logic_ternarii.getGrade(score);
         System.out.println("Result: " + grade);
     }
 

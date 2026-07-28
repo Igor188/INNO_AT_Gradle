@@ -1,7 +1,6 @@
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-public class Lesson1Homework {
+public class Lesson1Homework_Logic_ternarii {
    @Test
 
     public void logic_ternarii() {
