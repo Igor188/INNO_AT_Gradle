@@ -10,27 +10,25 @@ import java.util.List;
 
 public class Lesson1Homework_Arrays_ArraysList3 {
 
-    // Предположим, что список уже есть в классе как поле
-    private List<Integer> numbers = List.of(10, 20, 30, 40, 50);
-
-   @Test
-    // Исправленная сигнатура: void и без параметров
-    public void calcAverage() {
-        if (numbers == null || numbers.isEmpty()) {
-            System.out.println("Список пуст или null");
-            return;
+    // Метод для тестового вызова (возвращает int)
+    public static int calcAverage(List<Integer> list) {
+        if (list == null || list.isEmpty()) {
+            return 0;
         }
-
         long sum = 0;
-        for (Integer number : numbers) {
+        for (Integer number : list) {
             if (number != null) {
                 sum += number;
             }
         }
+        return (int) sum / list.size();
+    }
 
-        int average = (int) sum / numbers.size();
 
-        // Так как метод void, мы просто выводим результат или сохраняем его в поле
+    @Test
+    public void calcAverageOld() {
+        List<Integer> numbers = List.of(10, 20, 30, 40, 50);
+        int average = calcAverage(numbers);
         System.out.println("Среднее арифметическое: " + average);
     }
 }
