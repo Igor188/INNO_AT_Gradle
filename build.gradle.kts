@@ -17,6 +17,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.20.1")
     // Source: https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation("org.assertj:assertj-core:3.27.7")
+    // Source: https://mvnrepository.com/artifact/org.awaitility/awaitility
+    testImplementation("org.awaitility:awaitility:4.3.0")
 }
 
 /// Конфигурация встроенной задачи test – запуск всех тестов

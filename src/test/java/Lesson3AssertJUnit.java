@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -10,8 +11,8 @@ public class Lesson3AssertJUnit {
         Integer dig = new Random().nextInt(1,10);
         Integer expectedResult = 3;
 
-      //  assert dig.equals(expectedResult);
-      //  Assertions.assertEquals(expectedResult, dig);
+      //assert dig.equals(expectedResult);
+      //Assertions.assertEquals(expectedResult, dig);
       //  assertArrayEquals(); можно вызвать отдельно метод библиотеки если осуществить импорт её
     }
 }
