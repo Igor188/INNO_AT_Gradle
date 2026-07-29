@@ -23,8 +23,18 @@ dependencies {
 
 /// Конфигурация встроенной задачи test – запуск всех тестов
 tasks.test {
-    useJUnitPlatform()
-    outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
+    useJUnitPlatform {
+        // Если передан параметр -PincludeTags=..., используем его
+        if (project.hasProperty("includeTags")) {
+            includeTags(project.property("includeTags") as String)
+        }
+        outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
+    }
+    // Всегда показывать вывод тестов в консоли (чтобы видеть сообщения ассертов)
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
 }
 
 // Задача 1: запуск всех тестов (синоним test)
