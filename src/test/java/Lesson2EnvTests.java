@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-public class EnvTests {
+public class Lesson2EnvTests {
     @Test
     @Tag("Smoke")
     void envTest1(){
