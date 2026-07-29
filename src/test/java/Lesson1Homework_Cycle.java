@@ -61,7 +61,7 @@ public class Lesson1Homework_Cycle {
     public int sumToN(int n){
         int sum = 0;
         // Проходим от 1 до n включительно
-        for (int i = n; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             sum += i; // Добавляем текущее число к сумме
         }
         return sum;
