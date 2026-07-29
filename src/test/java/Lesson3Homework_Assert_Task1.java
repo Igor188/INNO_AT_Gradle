@@ -46,11 +46,11 @@ public class Lesson3Homework_Assert_Task1 {
     @Test
     void testRemoveSpecificNameFail() {
         List<String> input = List.of("Анна", "Борис", "Анна", "Виктор");
-        List<String> actual = new Lesson1Homework_Arrays_ArraysList4()
+        List<String> actual_result = new Lesson1Homework_Arrays_ArraysList4()
                 .removeSpecificName(input, "Анна");
         // Намеренно ожидаем неправильный список, чтобы ассерт упал
-        List<String> expected = List.of("Анна", "Борис", "Виктор"); // ошибка: Анна не удалена
-        assertEquals(expected, actual,
+        List<String> expected_result = List.of("Анна", "Борис", "Виктор"); // ошибка: Анна не удалена
+        assertEquals(expected_result, actual_result,
                 "Ожидалось, что 'Анна' останется в списке, но метод её удалил");
     }
 
