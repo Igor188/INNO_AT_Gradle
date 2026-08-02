@@ -1,26 +1,46 @@
-import io.restassured.http.ContentType;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class Lesson4RestAssuredTest {
+public class Lesson4RestAssuredSpec {
 
     public record Request1 (String foo, Integer foo2){}
+
+    private RequestSpecification basicRQ = new RequestSpecBuilder()
+        .setBaseUri("http://localhost:8080")
+        .log(LogDetail.ALL)
+        .addQueryParam("page", 0)
+        .build();
+
 
 
     @Test
     void raTest(){
         given()
-                .baseUri("http://localhost:8080")
-                .log().all()
-                .queryParam("page", 0)
-                .queryParam("size", 1000)
-                .when()
+                .spec(basicRQ)
+                .queryParam("size", 1)
                 .get("/goods/list")
                 .then()
                 .log().all()
                 .statusCode(200);
     }
+
+
+    @Test
+    void raTest2(){
+        given()
+                .spec(basicRQ)
+                .queryParam("size", 2)
+                .get("/goods/list")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+
 }
 
 
