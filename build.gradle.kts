@@ -19,6 +19,9 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.27.7")
     // Source: https://mvnrepository.com/artifact/org.awaitility/awaitility
     testImplementation("org.awaitility:awaitility:4.3.0")
+    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    implementation("io.rest-assured:rest-assured:5.5.6")
+
 }
 
 /// Конфигурация встроенной задачи test – запуск всех тестов
