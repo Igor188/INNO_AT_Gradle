@@ -21,6 +21,8 @@ dependencies {
     testImplementation("org.awaitility:awaitility:4.3.0")
     // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
     implementation("io.rest-assured:rest-assured:5.5.6")
+    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
 
 }
 
@@ -31,8 +33,8 @@ tasks.test {
         if (project.hasProperty("includeTags")) {
             includeTags(project.property("includeTags") as String)
         }
-        outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
     }
+    outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
     // Всегда показывать вывод тестов в консоли (чтобы видеть сообщения ассертов)
     testLogging {
         events("passed", "skipped", "failed")
@@ -56,6 +58,16 @@ tasks.register("finishedTest") {
     }
 }
 
+
+// Задача 3: только для API-тестов
+tasks.register<Test>("apiTest") {
+    group = "test"
+    description = "Runs API tests only"
+    useJUnitPlatform {
+        includeTags("api")
+    }
+
+}
 
 
 
