@@ -2,10 +2,14 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
+
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
@@ -13,8 +17,6 @@ import static org.hamcrest.Matchers.hasSize;
 
 
 public class Lesson4HomeworkRestAssuredTask1 {
-
-    public record Request1 (String foo, Integer foo2){} //для запроса GET /goods/list с query-параметрами
 
     public record Good (String name, Double price) {} //для запроса POST /goods/add с параметрами body
 
@@ -30,13 +32,12 @@ public class Lesson4HomeworkRestAssuredTask1 {
     // ================== Задача 1.1: given().when().then() ======================================
     @Test
     @Tag("api")
-    @Disabled
     void RATest_status_empty_body(){
         given()
                 .baseUri("http://localhost:8080")
                 .log().all()
                 .queryParam("page", 0)
-                .queryParam("size", 10)
+                .queryParam("size", 1000)
                 .when()
                 .get("/goods/list")
                 .then()
@@ -49,12 +50,11 @@ public class Lesson4HomeworkRestAssuredTask1 {
 // ================== Задача 1.2: RequestSpecification ==========================================
     @Test
     @Tag("api")
-    @Disabled
     void RATest_status_empty_body_spec(){
         given()
                 .spec(BasicRQ)
                 .queryParam("page", 0)
-                .queryParam("size", 10)
+                .queryParam("size", 1000)
                 .when()
                 .get("/goods/list")
                 .then()
@@ -67,7 +67,7 @@ public class Lesson4HomeworkRestAssuredTask1 {
     @Test
     @Tag("api")
     void RATest_Create_Load_Goods(){
-        // Создаём товар
+        // Создаём товар с рандомными значениями имени и цены
         String name = "Good-" + UUID.randomUUID().toString().substring(0, 8);
         Double price = random.nextDouble(1.0,100.0);
         given()
@@ -84,7 +84,7 @@ public class Lesson4HomeworkRestAssuredTask1 {
         given()
                 .spec(BasicRQ)
                 .queryParam("page", 0)
-                .queryParam("size", 10)
+                .queryParam("size", 1000)
                 .when()
                 .get("/goods/list")
                 .then()
@@ -93,10 +93,56 @@ public class Lesson4HomeworkRestAssuredTask1 {
                 .body("goods.name", hasItem(name));
     }
 
+    // ================== Задача 1.4: POST /goods/add + проверка через AssertJ ==================
+    @Test
+    @Tag("api")
+    void RATest_Create_Load_Goods_AssertJ(){
+        // Создаём товар с рандомными значениями имени и цены
+        String name = "Good-" + UUID.randomUUID().toString().substring(0, 8);
+        Double price = random.nextDouble(1.0,100.0);
+        given()
+                .spec(BasicRQ)
+                .body(new Good(name, price))
+                .when()
+                .post("/goods/add")
+                .then()
+                .log().all()
+                .statusCode(anyOf(is(200), is(201)));   // принимает 200 ИЛИ 201 код
 
 
+        // Проверяем, что товар появился в списке (AssertJ)
+        Response response = given() //через объект response
+                .spec(BasicRQ)
+                .queryParam("page", 0)
+                .queryParam("size", 1000)
+                .when()
+                .get("/goods/list");
+        //        2 вариант как можно response вытащить
+        //        List<String> actual_result_names = response.path("goods.name");
+        //        int actual_result_code = response.getStatusCode();
+
+       // Проверка через AssertJ
+        //       1 (итоговый) вариант как можно response вытащить
+        assertThat(response.statusCode())
+                .as("Код ответа должен быть 200")
+                .isEqualTo(200);
+
+        List<String> names = response.jsonPath().getList("goods.name");
+        assertThat(names)
+                .as("Список имён товаров должен содержать созданное имя товара", name)
+                .contains(name);
 
 
+        //       2 вариант как можно response вытащить - продолжение
+        // assertThat(actual_result_code)
+           //     .as("Код ответа должен быть 200")
+             //   .isEqualTo(200);
+
+        //assertThat(actual_result_names)
+         //       .as("Список имён товаров должен содержать созданное имя товара", name)
+         //       .contains(name);
+
+      }
 
 }
 
@@ -104,20 +150,3 @@ public class Lesson4HomeworkRestAssuredTask1 {
 
 
 
-
-
-/*
-given() - стадия подготовки (Setup), где мы описываем всё, что отправляем на сервер
-given()
-                .baseUri("https://api.example.com")
-                .basePath("/v1")
-                .header("Accept", "application/json")
-                .queryParam("limit", 10)
-                .log().all(); // Видим запрос в консоли
-
-when() - переводит тест из состояния подгтовки в состояние действия
-get ("/users/{id}"), те же методы REST - GET/POST/PUT/PATCH/DELETE
-
-then() - проверка соответствует ли реальный ответ нашим ожиданиям
-
- */
