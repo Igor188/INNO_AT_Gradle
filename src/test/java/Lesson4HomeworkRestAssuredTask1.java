@@ -5,7 +5,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
-
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -15,7 +14,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Lesson4HomeworkRestAssuredTask1 {
 
     public record Good (String name, Double price) {} //для запроса POST /goods/add с параметрами body
@@ -29,15 +28,19 @@ public class Lesson4HomeworkRestAssuredTask1 {
             .log(LogDetail.ALL)
             .build();
 
+
     // ================== Задача 1.1: given().when().then() ======================================
     @Test
     @Tag("api")
+    @Order(1)
     void RATest_status_empty_body(){
         given()
                 .baseUri("http://localhost:8080")
                 .log().all()
                 .queryParam("page", 0)
                 .queryParam("size", 1000)
+                .auth() //аутентификация в Сваггер
+                .basic("admin", "secret123") //креды для аутентификации
                 .when()
                 .get("/goods/list")
                 .then()
@@ -50,6 +53,7 @@ public class Lesson4HomeworkRestAssuredTask1 {
 // ================== Задача 1.2: RequestSpecification ==========================================
     @Test
     @Tag("api")
+    @Order(2)
     void RATest_status_empty_body_spec(){
         given()
                 .spec(BasicRQ)
@@ -66,6 +70,7 @@ public class Lesson4HomeworkRestAssuredTask1 {
 // ================== Задача 1.3: POST /goods/add + проверка через REST Assured ==================
     @Test
     @Tag("api")
+    @Order(3)
     void RATest_Create_Load_Goods(){
         // Создаём товар с рандомными значениями имени и цены
         String name = "Good-" + UUID.randomUUID().toString().substring(0, 8);
@@ -96,6 +101,7 @@ public class Lesson4HomeworkRestAssuredTask1 {
     // ================== Задача 1.4: POST /goods/add + проверка через AssertJ ==================
     @Test
     @Tag("api")
+    @Order(4)
     void RATest_Create_Load_Goods_AssertJ(){
         // Создаём товар с рандомными значениями имени и цены
         String name = "Good-" + UUID.randomUUID().toString().substring(0, 8);
