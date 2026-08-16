@@ -70,6 +70,20 @@ tasks.register<Test>("apiTest") {
 }
 
 
+// Задача 4: только для UI-тестов
+tasks.register<Test>("UITest") {
+    group = "test"
+    description = "Runs UI tests only"
+    useJUnitPlatform {
+        includeTags("UI")
+    }
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
+}
+
+
 
 
 /*tasks.register("SimpleTask") {
