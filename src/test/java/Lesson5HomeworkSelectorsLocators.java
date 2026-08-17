@@ -30,7 +30,7 @@ public class Lesson5HomeworkSelectorsLocators {
     @Tag("UI")
     @Order(2)
     void printListPricesLocators() {
-        String css = ".product-card [style*=\"font-weight:bold\"]";
+        String css = ".product-card > div:not([class])";
         System.out.println("CSS-локатор 'Список цен товаров' : " + css);
     }
 
@@ -40,7 +40,7 @@ public class Lesson5HomeworkSelectorsLocators {
     @Tag("UI")
     @Order(3)
     void printProductNameWithPrice25Locators() {
-        String xpath = "//tr[.//input[@value='25']]//input[@type='text']/@value";
+        String xpath = "//div[@data-price='25']/h4";
         System.out.println("XPath-локатор 'Название товара с ценой 25' : " + xpath);
     }
 
@@ -51,7 +51,7 @@ public class Lesson5HomeworkSelectorsLocators {
     @Tag("UI")
     @Order(4)
     void printPriceOfProductGlassLocators() {
-        String xpath = "//tr[.//input[@value='Стакан']]//input[@type='number']/@value";
+        String xpath = "//div[@data-name='Стакан']/div[not(@class)]";
         System.out.println("XPath-локатор 'Цена товара с названием «Стакан»' : " + xpath);
     }
 
@@ -80,6 +80,28 @@ public class Lesson5HomeworkSelectorsLocators {
 
 }
 
+/* Название товара и цены в админке
+
+//1.3. Название товара с ценой 25 (добавьте через админку).  XPath-локатор
+@Test
+@Tag("UI")
+@Order(3)
+void printProductNameWithPrice25Locators() {
+    String xpath = "//tr[.//input[@value='25']]//input[@type='text']/@value";
+    System.out.println("XPath-локатор 'Название товара с ценой 25' : " + xpath);
+}
+
+
+
+//1.4. Цена товара с названием «Стакан» (добавьте через админку). XPath-локатор
+@Test
+@Tag("UI")
+@Order(4)
+void printPriceOfProductGlassLocators() {
+    String xpath = "//tr[.//input[@value='Стакан']]//input[@type='number']/@value";
+    System.out.println("XPath-локатор 'Цена товара с названием «Стакан»' : " + xpath);
+}
+*/
 
 
 
