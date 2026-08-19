@@ -23,7 +23,7 @@ public class Lesson6Selenium_Selenide_SeleniumTests {
     void driverTest(){
         driver.findElement(By.xpath("//*[@data-action='qty-change'][@data-step='1'][@data-id='1']")).click();
         assertThat(driver.findElement(By.id("q-1")).getAttribute("value"))
-                .as("Поле ввода количества должнг быть равно 2")
+                .as("Поле ввода количества должно быть равно 2")
                 .isEqualTo("2");
     }
 
