@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.AfterEach;
-import static org.assertj.core.api.Assertions.as;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Lesson6Selenium_Selenide_SeleniumTests {
+public class Lesson6SeleniumTests {
     WebDriver driver;
 
     @BeforeEach
