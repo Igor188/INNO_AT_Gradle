@@ -11,7 +11,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class Lesson6HomeworkSelenium {
+public class Lesson6HomeworkSeleniumTask1 {
 
     private final Random random = new Random();
 
@@ -191,7 +191,7 @@ public class Lesson6HomeworkSelenium {
             System.out.println("[INFO] Товар найден. Нажимаем кнопку 'В корзину' для товара: " + createdGoodName);
             System.out.println("[INFO] Нажатие " + i + " выполнено");
             try {
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
