@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.codeborne.selenide.Condition.partialText;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -25,7 +24,8 @@ public class Lesson6HomeworkSelenideTask3 {
 
     private final Random random = new Random();
 
-    public record Good (String name, Double price) {} //для запроса POST /goods/add с параметрами body
+    public record Good(String name, Double price) {
+    } //для запроса POST /goods/add с параметрами body
 
     private RequestSpecification BasicRQ = new RequestSpecBuilder()
             .setBaseUri("http://localhost:8080")
@@ -44,7 +44,7 @@ public class Lesson6HomeworkSelenideTask3 {
 
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         // Создаём товар с рандомными значениями имени и цены
         String name = "Good-" + UUID.randomUUID().toString().substring(0, 8);
         Double price = random.nextDouble(1.0, 99.0);
@@ -74,7 +74,7 @@ public class Lesson6HomeworkSelenideTask3 {
 
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         for (int id : goodsToDelete) {
             given()
                     .spec(BasicRQ)
@@ -135,7 +135,7 @@ public class Lesson6HomeworkSelenideTask3 {
 
         System.out.println("[INFO] Проверка уведомления оформления заказа");
         SelenideElement toastVisible = $x("//*[@id = 'toast-container']");
-        toastVisible.should(Condition.visible, Duration.ofSeconds(1));
+        toastVisible.should(visible, Duration.ofSeconds(1));
         toastVisible.should(text("Заказ принят в обработку!"));
 
         System.out.println("[INFO] Проверка тоста об оформлении заказа. Тост соответствует");
@@ -182,7 +182,7 @@ public class Lesson6HomeworkSelenideTask3 {
         refresh();
 
         //Добавление созданных товаров в корзину
-        System.out.println("\n=== Этап поиска ранее созданных товаров: " + createdGoodName +  ", " + name +  " и добавление их в корзину ===\n");
+        System.out.println("\n=== Этап поиска ранее созданных товаров: " + createdGoodName + ", " + name + " и добавление их в корзину ===\n");
 
         // Явное ожидание появления кнопки "В корзину" (до 2 секунд)
         sleep(2000);
@@ -207,7 +207,7 @@ public class Lesson6HomeworkSelenideTask3 {
         System.out.println("[INFO] Нажатие выполнено");
 
 
-        System.out.println("\n=== Этап поиска ранее созданных товаров: " + createdGoodName +  ", " + name +  " и добавление их в корзину (SUCCESS) ===\n");
+        System.out.println("\n=== Этап поиска ранее созданных товаров: " + createdGoodName + ", " + name + " и добавление их в корзину (SUCCESS) ===\n");
 
 
         System.out.println("[INFO] Открываем корзину всех товаров");
@@ -235,7 +235,6 @@ public class Lesson6HomeworkSelenideTask3 {
         System.out.println("[INFO] Cумма товара №1 соответствует: " + createdGoodPrice);
 
 
-
         // Ищем карточку товара №2 в корзине по ранее созданному имени добавленного товара
         System.out.println("[INFO] Поиск карточки товара по ранее созданному имени товара: " + name);
         cartItem = $$(".cart-item")
@@ -257,7 +256,7 @@ public class Lesson6HomeworkSelenideTask3 {
         System.out.println("[INFO] Поиск и проверка общей суммы товаров в корзине : ожидаемая сумма = " + (createdGoodPrice + price));
         double expectedCartItemTotal = createdGoodPrice + price;
         SelenideElement totalPrice = $x("//*[@id='total-price']");
-                totalPrice.should(partialText(String.valueOf(expectedCartItemTotal)));
+        totalPrice.should(partialText(String.valueOf(expectedCartItemTotal)));
         System.out.println("[INFO] Cумма товаров соответствует: " + expectedCartItemTotal);
 
 
@@ -332,7 +331,7 @@ public class Lesson6HomeworkSelenideTask3 {
         // проверка тоста об успешном добавлении товара
         System.out.println("[INFO] Ожидание появления тоста об успешном создании товара...");
         SelenideElement toastVisible = $x("//*[@id = 'toast-container']");
-        toastVisible.should(Condition.visible, Duration.ofSeconds(1));
+        toastVisible.should(visible, Duration.ofSeconds(1));
         toastVisible.should(Condition.text("Товар успешно добавлен!"));
 
         System.out.println("[INFO] Проверка тоста об успешном создании товара. Тост соответствует");
@@ -362,20 +361,136 @@ public class Lesson6HomeworkSelenideTask3 {
 
 //3.4. Войти в админку и отредактировать товар. Выйти на список товаров и проверить, что изменения применились.
 
+    @Test
+    @Tag("UI")
+    @Order(4)
+    void editGoodThrowAdminAndCheckChangesTest() {
+        System.out.println("\n=== Тест 3.4: Войти в админку и отредактировать товар. Выйти на список товаров и проверить, что изменения применились. ===\n");
+
+        //вход в админку
+        System.out.println("\n=== Этап входа в админку ===\n");
+        System.out.println("[INFO] Переход на страницу админки");
+        SelenideElement enterAdmin = $("[href='/admin']");
+        enterAdmin.click();
+
+        SelenideElement inputUsername = $x("//*[@id = 'username']");
+        System.out.println("[INFO] Ввод валидного логина");
+        inputUsername.sendKeys("admin");
+
+        SelenideElement inputPass = $x("//*[@id = 'password']");
+        System.out.println("[INFO] Ввод валидного пароля");
+        inputPass.sendKeys("secret123");
+
+        System.out.println("[INFO] Нажатие кнопки входа");
+        SelenideElement pushButton = $x("//*[@type='submit']");
+        pushButton.click();
+
+        System.out.println("\n=== Этап входа в админку (SUCCESS) ===\n");
 
 
+        // Создаём товар с рандомными значениями имени и цены
+        System.out.println("\n=== Этап создания товара с рандомными значениями имени и цены ===\n");
+        String uiGoodName = "UI-" + UUID.randomUUID().toString().substring(0, 8);
+        System.out.println("[INFO] Генерация случайного имени: " + uiGoodName);
+        Double uiGoodPrice = random.nextDouble(1.0, 100.0);
+        System.out.println("[INFO] Генерация случайной цены: " + uiGoodPrice);
+
+        System.out.println("\n=== Этап создания товара с рандомными значениями имени и цены (SUCCESS) ===\n");
 
 
+        //Редактирование товара через админку
+        System.out.println("\n=== Этап поиска товара и его редактирования ===\n");
 
+        // Находим строку таблицы, содержащую наш товар (по значению имени)
+        SelenideElement row = $x("//tr[.//input[@value='" + createdGoodName + "']]");
+
+        // Поле имени
+        System.out.println("[INFO] Редактирование имени товара с: " + createdGoodName + " на: " + uiGoodName);
+        SelenideElement editName = row.$("input[type='text']");
+        editName.setValue(uiGoodName);
+
+        // Поле цены
+        System.out.println("[INFO] Редактирование цены товара с: " + createdGoodPrice + " на: " + uiGoodPrice);
+        SelenideElement editPrice = row.$("input[type='number']");
+        editPrice.setValue(String.valueOf(uiGoodPrice));
+
+        // Кнопка «Сохранить» внутри этой же строки
+        System.out.println("[INFO] Нажатие кнопки 'Сохранить'");
+        row.$("[data-action='update']").click();
+
+        System.out.println("\n=== Этап поиска товара и его редактирования (SUCCESS) ===\n");
+
+        // проверка тоста об успешном редактировании товара
+        System.out.println("[INFO] Ожидание появления тоста об успешном редактировании товара...");
+        SelenideElement toastVisible = $x("//*[@id = 'toast-container']");
+        toastVisible.should(visible, Duration.ofSeconds(1));
+        toastVisible.should(Condition.text("Товар #" + createdGoodId + " обновлен"));
+        System.out.println("[INFO] Проверка тоста об успешном создании товара. Тост соответствует");
+
+        // Получение id созданного через UI товара через API (GET - запрос), чтобы удалить в @AfterEach
+        // Цикл ожидания подтверждения обновления через API (до 5 секунд)
+        System.out.println("[INFO] Ожидание подтверждения обновления через API...");
+        boolean updated = false;
+        long deadline = System.currentTimeMillis() + 5000;
+        while (System.currentTimeMillis() < deadline) {
+        Response resp = given()
+                .spec(BasicRQ)
+                .queryParam("page", 0)
+                .queryParam("size", 1000)
+                .when()
+                .get("/goods/list")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().response();
+
+        List<String> names = resp.jsonPath().getList("goods.name");
+            if (names.contains(uiGoodName)) {
+                updated = true;
+                break;
+            }
+            sleep(500);
+        }
+        if (!updated) {
+            throw new AssertionError("Товар не был обновлён на сервере за 5 секунд");
+        }
+        System.out.println("[INFO] Обновление подтверждено через API");
+
+
+        //выход из админки
+        System.out.println("[INFO] Выход из админки - нажать вернуться на сайт");
+        SelenideElement exitAdmin = $x("//*[@href= '/']");
+        exitAdmin.click();
+        System.out.println("\n=== Выход из админки (SUCCESS) ===\n");
+
+        System.out.println("[INFO] Обновление текущей страницы сайта");
+        refresh();
+
+        // находим карточку именно нашего товара по data-name
+        System.out.println("\n=== Этап поиска изменений товара и выполнения проверок ===\n");
+        System.out.println("[INFO] Поиск карточки товара по data-name: " + uiGoodName);
+        SelenideElement productCard = $$(".product-card")
+                .findBy(Condition.attribute("data-name", uiGoodName));
+        System.out.println("[INFO] Карточка успешно найдена");
+
+        // проверка имени
+        System.out.println("[INFO] Поиск и проверка измененного имени: " + uiGoodName + " в карточке товара");
+        productCard.$("h4").should(text(uiGoodName));
+        System.out.println("[INFO] Имя соответствует: " + uiGoodName);
+
+
+        // проверка цены
+        System.out.println("[INFO] Поиск и проверка измененной цены: " + uiGoodPrice + " в карточке товара");
+        productCard.$("div:not([class])").should(partialText(String.valueOf(uiGoodPrice)));
+        System.out.println("[INFO] Цена соответствует: " + uiGoodPrice);
+
+        System.out.println("\n=== Этап поиска измененений товара и выполнения проверок (SUCCESS) ===\n");
+
+
+        System.out.println("\n=== Тест 3.4 завершён успешно ===\n");
     }
 
-
-
-
-
-
-
-
+}
 
 
 
