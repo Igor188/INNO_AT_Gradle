@@ -187,7 +187,7 @@ public class Lesson7HomeworkBP {
 
         // Проверяем, что товар исчез из корзины
         logger.log(Level.INFO, "Проверка отсутствия товара в корзине");
-        cartItem.shouldNot(exist);
+        cartItem.shouldNot(visible);
         logger.log(Level.INFO, "Товар " + createdGoodName + " удалён из корзины");
 
         logger.log(Level.INFO, "=== Тест 1.2 завершён успешно ===");
