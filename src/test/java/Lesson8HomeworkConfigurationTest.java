@@ -29,7 +29,8 @@ public class Lesson8HomeworkConfigurationTest {
 
     private final Random random = new Random();
 
-    public record Good(String name, Double price) {}
+    public record Good(String name, Double price) {
+    }
 
     private static RequestSpecification basicRQ;
     private static String createdGoodName;
@@ -184,7 +185,7 @@ public class Lesson8HomeworkConfigurationTest {
         cartItem.$(".qty-controls span").should(text(String.valueOf(addGoodAmountInCartDnD)));
         logger.log(Level.INFO, "Количество соответствует: " + addGoodAmountInCartDnD);
 
-        double expectedCartItemTotal = createdGoodPrice*addGoodAmountInCartDnD;
+        double expectedCartItemTotal = createdGoodPrice * addGoodAmountInCartDnD;
         logger.log(Level.INFO, "Поиск и проверка суммы товара: " + expectedCartItemTotal + " в карточке товара");
         cartItem.$("div:nth-child(3)").should(partialText(String.valueOf(expectedCartItemTotal)));
         logger.log(Level.INFO, "Сумма товара соответствует: " + expectedCartItemTotal);
@@ -231,12 +232,13 @@ public class Lesson8HomeworkConfigurationTest {
         logger.log(Level.INFO, "=== Тест 1.2 завершён успешно ===");
     }
 
+    //==========================================================================================================================================
 
     //1.3. Добавить товар через админку, выйти на витрину и проверить, что товар отображается.
     @Test
     @Tag("UI")
     @Order(3)
-    void AddGoodAndCheckTest(){
+    void AddGoodAndCheckTest() {
         logger.log(Level.INFO, "=== Тест 1.3: Добавить товар через админку, выйти на витрину и проверить, что товар отображается ===");
 
         // === Этап входа в админку ===
