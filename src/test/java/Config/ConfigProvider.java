@@ -23,7 +23,8 @@ public class ConfigProvider {
         return props.getProperty(key);
     }
 */
-    public static ApiConfig apiProps = ConfigFactory.create(ApiConfig.class);
+    public static ApiConfig apiProps =  ConfigFactory.create(ApiConfig.class, System.getProperties(), System.getenv());
 
+    private ConfigProvider() {}
 
 }
