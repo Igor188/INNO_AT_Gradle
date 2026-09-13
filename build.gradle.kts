@@ -27,6 +27,8 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
     // Source: https://mvnrepository.com/artifact/com.codeborne/selenide
     implementation("com.codeborne:selenide:7.16.2")
+    // Source: https://mvnrepository.com/artifact/org.aeonbits.owner/owner
+    implementation("org.aeonbits.owner:owner:1.0.12")
 
 }
 
