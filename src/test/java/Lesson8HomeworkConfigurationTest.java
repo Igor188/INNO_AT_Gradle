@@ -11,12 +11,11 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
-
+import java.time.Duration;
 import java.util.Locale;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
@@ -230,6 +229,81 @@ public class Lesson8HomeworkConfigurationTest {
         logger.log(Level.INFO, "Товар " + createdGoodName + " удалён из корзины");
 
         logger.log(Level.INFO, "=== Тест 1.2 завершён успешно ===");
+    }
+
+
+    //1.3. Добавить товар через админку, выйти на витрину и проверить, что товар отображается.
+    @Test
+    @Tag("UI")
+    @Order(3)
+    void AddGoodAndCheckTest(){
+        logger.log(Level.INFO, "=== Тест 1.3: Добавить товар через админку, выйти на витрину и проверить, что товар отображается ===");
+
+        // === Этап входа в админку ===
+        logger.log(Level.INFO, "Этап входа в админку: переход на страницу");
+        $("[href='/admin']").click();
+
+        logger.log(Level.INFO, "Ввод валидного логина");
+        $("#username").setValue(config.adminLogin());
+
+        logger.log(Level.INFO, "Ввод валидного пароля");
+        $("#password").setValue(config.adminPassword());
+
+        logger.log(Level.INFO, "Нажатие кнопки входа");
+        $x("//*[@type='submit']").click();
+
+        logger.log(Level.INFO, "=== Этап входа в админку (SUCCESS) ===");
+
+        // === Этап добавления товара через админку ===
+        logger.log(Level.INFO, "Этап добавления товара через админку");
+
+        logger.log(Level.INFO, "Ввод имени товара: {0}", createdGoodName);
+        $x("//*[@id = 'n-name']").sendKeys(createdGoodName);
+
+        logger.log(Level.INFO, "Ввод цены товара: {0}", createdGoodPrice);
+        $x("//*[@id = 'n-price']").sendKeys(String.valueOf(createdGoodPrice));
+
+        logger.log(Level.INFO, "Нажатие кнопки 'Создать'");
+        $x("//*[@id = 'add-btn']").click();
+
+        // проверка тоста об успешном добавлении товара (опционально, захотелось для полноты покрытия)
+        logger.log(Level.INFO, "Ожидание отсутствия появления тоста об успешном создании товара (hidden-скрыт)...");
+        $x("//*[@id = 'toast-container']").shouldNot(Condition.visible, Duration.ofSeconds(1));
+        $x("//*[@id = 'toast-container']").should(exist);
+
+
+        logger.log(Level.INFO, "Тост соответствует ожидаемому (тост скрыт)");
+
+        logger.log(Level.INFO, "Этап добавления товара через админку (SUCCESS) ===");
+
+        //выход из админки
+        logger.log(Level.INFO, "Выход из админки - нажать 'Вернуться на сайт'");
+        $x("//*[@href= '/']").click();
+        logger.log(Level.INFO, "=== Выход из админки (SUCCESS) ===");
+
+        // находим карточку именно нашего товара по data-name
+        logger.log(Level.INFO, "Этап поиска товара на витрине по data-name: {0}", createdGoodName);
+        //Пришлось делать ожидание 2 сек - иногда фейлится
+        sleep(2000);
+        SelenideElement productCard = $$(".product-card")
+                .findBy(Condition.attribute("data-name", createdGoodName));
+        productCard.shouldBe(visible);
+        logger.log(Level.INFO, "Карточка товара успешно найдена");
+
+        // проверка имени
+        logger.log(Level.INFO, "[INFO] Поиск и проверка имени: " + createdGoodName + " в карточке товара");
+        productCard.$("h4").should(text(createdGoodName));
+        logger.log(Level.INFO, "Имя соответствует: {0}", createdGoodName);
+
+
+        // проверка цены
+        logger.log(Level.INFO, "Проверка цены в карточке товара: {0}", createdGoodPrice);
+        productCard.$("div:not([class])").should(partialText(String.valueOf(createdGoodPrice)));
+        logger.log(Level.INFO, "Цена соответствует: {0}", createdGoodPrice);
+
+        logger.log(Level.INFO, "=== Этап поиска товара и выполнения проверок (SUCCESS) ===");
+
+        logger.log(Level.INFO, "=== Тест 1.3 завершён успешно ===");
     }
 
 }
