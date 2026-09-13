@@ -45,12 +45,12 @@ public class Lesson8HomeworkConfigurationTest {
     static void printConfig() {
         logger.log(Level.INFO, "=================================================");
         logger.log(Level.INFO, "Запуск автотестов с параметрами:");
-        logger.log(Level.INFO, "UI URL:      {0}", config.url());
-        logger.log(Level.INFO, "API URL:     {0}", config.apiUrl());
-        logger.log(Level.INFO, "Timeout:     {0} ms", config.timeout());
-        logger.log(Level.INFO, "apiLogs:        {0}", config.apiLogs());
-        logger.log(Level.INFO, "Good name:   {0}", config.goodName());
-        logger.log(Level.INFO, "Good price:  {0}", String.format(Locale.ROOT, "%.2f", config.goodPrice()));
+        logger.log(Level.INFO, "UI_URL:      {0}", config.url());
+        logger.log(Level.INFO, "API_URL:     {0}", config.apiUrl());
+        logger.log(Level.INFO, "TIMEOUT:     {0} ms", config.timeout());
+        logger.log(Level.INFO, "API_LOGS:        {0}", config.apiLogs());
+        logger.log(Level.INFO, "GOOD_NAME:   {0}", config.goodName());
+        logger.log(Level.INFO, "GOOD_PRICE:  {0}", String.format(Locale.ROOT, "%.2f", config.goodPrice()));
         logger.log(Level.INFO, "=================================================");
 
         logger.log(Level.INFO, "Конфиг загружен: URL={0}, API_URL={1}, TIMEOUT={2}, API_LOGS={3}, GOOD_NAME={4}, GOOD_PRICE={5}",
