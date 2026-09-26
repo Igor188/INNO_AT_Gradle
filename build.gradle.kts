@@ -29,6 +29,8 @@ dependencies {
     implementation("com.codeborne:selenide:7.16.2")
     // Source: https://mvnrepository.com/artifact/org.aeonbits.owner/owner
     implementation("org.aeonbits.owner:owner:1.0.12")
+    // Source: https://mvnrepository.com/artifact/org.projectlombok/lombok
+    implementation("org.projectlombok:lombok:1.18.46")
 
 }
 
