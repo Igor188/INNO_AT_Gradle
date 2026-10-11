@@ -1,6 +1,8 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
+
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -51,31 +53,37 @@ public class Lesson9PageObjectMainPage {
 
     // === Методы взаимодействия ===
 
+    @Step("Открыть главную страницу: {url}")
     Lesson9PageObjectMainPage open(String url) {
         Selenide.open(url);
         return this;
     }
 
+    @Step("Обновить страницу")
     Lesson9PageObjectMainPage refreshPage() {
         Selenide.refresh();
         return this;
     }
 
+    @Step("Перейти в админку")
     Lesson9PageObjectAdminPanelPage goToAdmin() {
         adminLink.click();
         return new Lesson9PageObjectAdminPanelPage();
     }
 
+    @Step("Клик по кнопке 'В корзину' для товара '{goodName}'")
     Lesson9PageObjectMainPage clickAddToCart(String name) {
         addToCartButton(name).click();
         return this;
     }
 
+    @Step("Открыть корзину")
     Lesson9PageObjectMainPage openCart() {
         openCart.click();
         return this;
     }
 
+    @Step("Клик по кнопке 'Оформить заказ'")
     Lesson9PageObjectMainPage clickMakeOrder() {
         makeOrderButton.click();
         return this;

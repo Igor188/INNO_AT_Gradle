@@ -1,5 +1,7 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
+
 import static com.codeborne.selenide.Selenide.*;
 public class Lesson9PageObjectAdminPanelPage {
 
@@ -24,21 +26,25 @@ public class Lesson9PageObjectAdminPanelPage {
 
     // === Методы взаимодействия ===
 
+    @Step("Ввести логин: {username}")
      Lesson9PageObjectAdminPanelPage setUsername(String username) {
             inputUsername.sendKeys(username);
             return this;
         }
 
+    @Step("Ввести пароль")
         Lesson9PageObjectAdminPanelPage setPassword(String password) {
             inputPass.sendKeys(password);
             return this;
         }
 
+    @Step("Нажать 'Sign in'")
         Lesson9PageObjectAdminPanelPage submit() {
             enterButton.click();
             return this;
         }
 
+    @Step("Ввести параметры нового товара: {name}, {price}, Нажать 'Создать'")
     Lesson9PageObjectAdminPanelPage createGood(String name, Double price) {
         addName.sendKeys(name);
         addPrice.sendKeys(String.valueOf(price));
@@ -64,6 +70,7 @@ public class Lesson9PageObjectAdminPanelPage {
         return goodRow(id).$("[data-action='update']");
     }
 
+    @Step("Отредактировать товар id={id}: имя → {editGoodName}, цена → {editGoodPrice}")
     Lesson9PageObjectAdminPanelPage editGood(int id, String editGoodName, Double editGoodPrice) {
         editNameField(id).clear();
         editNameField(id).sendKeys(editGoodName);
@@ -73,6 +80,7 @@ public class Lesson9PageObjectAdminPanelPage {
         return this;
     }
 
+    @Step("Вернуться на витрину")
     Lesson9PageObjectMainPage goToStorefront() {
         exitAdmin.click();
         return new Lesson9PageObjectMainPage();

@@ -1,5 +1,10 @@
 plugins {
     id("java")
+    id("io.qameta.allure") version "3.2.0"
+}
+
+allure {
+    version.set("2.29.0")
 }
 
 group = "org.example"
@@ -9,9 +14,17 @@ repositories {
     mavenCentral()
 }
 
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))   // ← JDK 21
+    }
+}
+
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.qameta.allure:allure-junit5:2.29.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation("com.fasterxml.jackson.core:jackson-core:2.20.1")
@@ -31,24 +44,33 @@ dependencies {
     implementation("org.aeonbits.owner:owner:1.0.12")
     // Source: https://mvnrepository.com/artifact/org.projectlombok/lombok
     implementation("org.projectlombok:lombok:1.18.46")
+    // Source: https://mvnrepository.com/artifact/io.qameta.allure/allure-rest-assured
+    implementation("io.qameta.allure:allure-rest-assured:2.29.0")
+    // Source: https://mvnrepository.com/artifact/io.qameta.allure/allure-selenide
+    implementation("io.qameta.allure:allure-selenide:2.29.0")
 
 }
 
 /// Конфигурация встроенной задачи test – запуск всех тестов
 tasks.test {
     useJUnitPlatform {
-        // Если передан параметр -PincludeTags=..., используем его
         if (project.hasProperty("includeTags")) {
             includeTags(project.property("includeTags") as String)
         }
     }
-    outputs.upToDateWhen { false }   // всегда считать задачу устаревшей
-    // Всегда показывать вывод тестов в консоли (чтобы видеть сообщения ассертов)
+    outputs.upToDateWhen { false }
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
     }
+    systemProperty(
+        "allure.results.directory",
+        layout.buildDirectory.dir("allure-results").get().asFile.absolutePath
+    )
+    finalizedBy("allureReport")
 }
+
+
 
 // Задача 1: запуск всех тестов (синоним test)
 tasks.register("smokeTest") {
@@ -71,26 +93,48 @@ tasks.register("finishedTest") {
 tasks.register<Test>("apiTest") {
     group = "test"
     description = "Runs API tests only"
-    useJUnitPlatform {
-        includeTags("api")
+    useJUnitPlatform { includeTags("api") }
+    outputs.upToDateWhen { false }
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
     }
-
+    systemProperty(
+        "allure.results.directory",
+        layout.buildDirectory.dir("allure-results").get().asFile.absolutePath
+    )
+    finalizedBy("allureReport")
 }
+
 
 
 // Задача 4: только для UI-тестов
 tasks.register<Test>("UITest") {
     group = "test"
     description = "Runs UI tests only"
-    useJUnitPlatform {
-        includeTags("UI")
-    }
+    useJUnitPlatform { includeTags("UI") }
+    outputs.upToDateWhen { false }
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
     }
+    systemProperty(
+        "allure.results.directory",
+        layout.buildDirectory.dir("allure-results").get().asFile.absolutePath
+    )
+    finalizedBy("allureReport")
 }
 
+
+// ==================== Очистка папки отчёта перед генерацией ====================
+tasks.matching { it.name == "allureReport" }.configureEach {
+    doFirst {
+        val reportDir = layout.buildDirectory.dir("reports/allure-report").get().asFile
+        if (reportDir.exists()) {
+            reportDir.deleteRecursively()
+        }
+    }
+}
 
 
 

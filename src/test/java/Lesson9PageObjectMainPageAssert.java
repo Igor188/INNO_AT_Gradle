@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.assertj.core.api.AbstractAssert;
 import static com.codeborne.selenide.Condition.*;
 
@@ -6,35 +7,42 @@ public class Lesson9PageObjectMainPageAssert extends AbstractAssert<Lesson9PageO
         super(actual, Lesson9PageObjectMainPageAssert.class);
     }
 
+    @Step("Проверить: ссылка 'Администрирование' видна")
     public Lesson9PageObjectMainPageAssert adminLinkIsVisible() {
         isNotNull();
         actual.adminLink.should(visible);
         return this;
     }
 
+    @Step("Проверить: кнопка корзины видна")
     public Lesson9PageObjectMainPageAssert cartButtonIsVisible() {
         isNotNull();
         actual.openCart.should(visible);
         return this;
     }
 
+    @Step("Проверить: кнопка 'Оформить заказ' видна")
     public Lesson9PageObjectMainPageAssert makeOrderButtonIsVisible() {
         isNotNull();
         actual.makeOrderButton.should(visible);
         return this;
     }
+
+    @Step("Проверить: карточка товара '{name}' видна")
     public Lesson9PageObjectMainPageAssert productCardIsVisible(String name) {
         isNotNull();
         actual.productCard(name).should(visible);
         return this;
     }
 
+    @Step("Проверить: имя товара '{name}' совпадает")
     public Lesson9PageObjectMainPageAssert productNameEquals(String name) {
         isNotNull();
         actual.productCard(name).$("h4").should(text(name));
         return this;
     }
 
+    @Step("Проверить: цена товара '{name}' содержит '{price}'")
     public Lesson9PageObjectMainPageAssert productPriceContains(String name, Double price) {
         isNotNull();
         actual.productCard(name).$("div:not([class])")
@@ -42,30 +50,35 @@ public class Lesson9PageObjectMainPageAssert extends AbstractAssert<Lesson9PageO
         return this;
     }
 
+    @Step("Проверить: тост содержит '{expectedText}'")
     public Lesson9PageObjectMainPageAssert toastHasText(String expected) {
         isNotNull();
         actual.toastContainer.should(text(expected));
         return this;
     }
 
+    @Step("Проверить: товар '{name}' отображается в корзине")
     public Lesson9PageObjectMainPageAssert cartItemVisible(String name) {
         isNotNull();
         actual.cartItem(name).should(visible);
         return this;
     }
 
+   @Step("Проверить: количество товара '{name}' = {expected}")
    public Lesson9PageObjectMainPageAssert qtyEquals(String name, int qty) {
         isNotNull();
         actual.qty(name).should(text(String.valueOf(qty)));
         return this;
     }
 
+    @Step("Проверить: сумма по товару '{name}' содержит '{expectedTotal}'")
     public Lesson9PageObjectMainPageAssert itemTotalContains(String name, double expected) {
         isNotNull();
         actual.itemTotal(name).should(partialText(String.valueOf(expected)));
         return this;
     }
 
+    @Step("Проверить: общая сумма корзины содержит '{expectedTotal}'")
     public Lesson9PageObjectMainPageAssert totalPriceContains(String expected) {
         isNotNull();
         actual.totalPrice.should(partialText(expected));
