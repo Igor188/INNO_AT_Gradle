@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
 import org.assertj.core.api.AbstractAssert;
 
 import static com.codeborne.selenide.Condition.*;
@@ -8,54 +9,63 @@ public Lesson9PageObjectAdminPanelPageAssert(Lesson9PageObjectAdminPanelPage act
     super(actual, Lesson9PageObjectAdminPanelPageAssert.class);
     }
 
+    @Step("Проверить: поле логина видно")
     public Lesson9PageObjectAdminPanelPageAssert loginFieldVisible() {
         isNotNull();
         actual.inputUsername.should(visible);
         return this;
     }
 
+    @Step("Проверить: поле пароля видно")
     public Lesson9PageObjectAdminPanelPageAssert passwordFieldVisible() {
         isNotNull();
         actual.inputPass.should(visible);
         return this;
     }
 
+    @Step("Проверить: кнопка 'Создать' видна")
     public Lesson9PageObjectAdminPanelPageAssert createButtonVisible() {
         isNotNull();
         actual.enterButton.should(visible);
         return this;
     }
 
+    @Step("Проверить: тост содержит '{expected}'")
     public Lesson9PageObjectAdminPanelPageAssert toastHasText(String expected) {
         isNotNull();
         actual.toastVisible.should(Condition.text(expected));
         return this;
     }
 
+    @Step("Проверить: строка товара id={id} видна")
     public Lesson9PageObjectAdminPanelPageAssert goodRowVisible(int id) {
         isNotNull();
         actual.goodRow(id).shouldBe(visible);
         return this;
     }
 
+    @Step("Проверить: имя товара id={id} = '{expected}'")
     public Lesson9PageObjectAdminPanelPageAssert goodNameEquals(int id, String expected) {
         isNotNull();
         actual.editNameField(id).should(value(expected));
         return this;
     }
 
+    @Step("Проверить: цена товара id={id} = '{expected}'")
     public Lesson9PageObjectAdminPanelPageAssert goodPriceEquals(int id, String expected) {
         isNotNull();
         actual.editPriceField(id).should(value(expected));
         return this;
     }
 
+    @Step("Проверить: поле логина содержит '{expected}'")
     public Lesson9PageObjectAdminPanelPageAssert usernameHasText(String expected) {
         isNotNull();
         actual.inputUsername.shouldHave(value(expected));
         return this;
     }
 
+    @Step("Проверить: поле пароля содержит '{expected}'")
     public Lesson9PageObjectAdminPanelPageAssert passwordHasText(String expected) {
         isNotNull();
         actual.inputPass.shouldHave(value(expected));

@@ -1,6 +1,7 @@
 import Config.ApiConfig;
 import Config.ConfigProvider;
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
